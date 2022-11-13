@@ -3,7 +3,7 @@ import { StatisticsForm } from 'components/Statistics/StatisticsForm/StatisticsF
 import { StatisticsTable } from 'components/Statistics/StatisticsTable/StatisticsTable';
 import { useEffect, useState } from 'react';
 import { convertDataForChart } from '../../utils/convertDataForChart';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   selectCategoriesSummary,
@@ -14,6 +14,7 @@ import s from './StatisticsDiagramAndTable.module.css';
 import { Puff } from 'react-loader-spinner';
 import { selectTransactions } from 'redux/transactions/selectorsTransactions';
 import { getYearsFromTransaction } from 'utils/getYearsFromTransaction';
+import { getTransactionsThunk } from 'redux/transactions/thunksTransactions';
 
 export const StatisticsDiagramAndTable = () => {
   const [diagramData, setDiagramData] = useState(null);
@@ -23,6 +24,8 @@ export const StatisticsDiagramAndTable = () => {
   const categoriesSummary = useSelector(selectCategoriesSummary);
   const isLoading = useSelector(selectIsLoading);
   const transactions = useSelector(selectTransactions);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!categoriesSummary.length) {
@@ -37,10 +40,14 @@ export const StatisticsDiagramAndTable = () => {
   }, [categoriesSummary]);
 
   useEffect(() => {
+    console.log(transactions);
     if (transactions.length) {
       const years = getYearsFromTransaction(transactions);
       setYearsArray(years);
+    } else {
+      dispatch(getTransactionsThunk());
     }
+    // eslint-disable-next-line
   }, [transactions]);
 
   return (
