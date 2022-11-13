@@ -10,11 +10,12 @@ import {
   selectIsLoading,
 } from 'redux/statistics/selectorsStatistics';
 
-import s from './StatisticsDiagramAndTable.module.css';
 import { Puff } from 'react-loader-spinner';
 import { selectTransactions } from 'redux/transactions/selectorsTransactions';
 import { getYearsFromTransaction } from 'utils/getYearsFromTransaction';
 import { getTransactionsThunk } from 'redux/transactions/thunksTransactions';
+
+import s from './StatisticsDiagramAndTable.module.css';
 
 export const StatisticsDiagramAndTable = () => {
   const [diagramData, setDiagramData] = useState(null);
